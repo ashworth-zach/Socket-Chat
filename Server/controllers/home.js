@@ -1,5 +1,23 @@
 var mongoose = require('mongoose');
 var User = mongoose.model('User');
+//SOCKET IMPORTS
+var io = require('socket.io')(server);
+//PORT DECLARATION
+const server = app.listen(1337);
+
+//SOCKET FUNCTIONS
+io.on('connection', function (socket) { 
+  
+    socket.on('message', function (data) { 
+      // io.emit will message all socket clients 
+      if(!data.message){
+          return;
+      }
+      
+      io.emit('updateAllClients', { data: data.message });
+    });
+  });
+
 
 module.exports={
     getall:function (req, res) {
