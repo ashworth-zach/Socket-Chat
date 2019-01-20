@@ -8,27 +8,18 @@ var User = new mongoose.Schema({
         maxlength:[100,'name cannot be over 100 characters'],
         required:[true, 'name cannot be empty'],
     },
-    type:{
-        type:String,
-        minlength:[3,'type must be longer than 3 characters'],
-        maxlength:[100,'type cannot be over 100 characters'],
-        required:[true, 'type cannot be empty'],
+    // profile_pic:{
+    //     type:String,
+    //     required:[true, 'description cannot be empty'],
 
-    },
-    description:{
+    // },
+    message:{
         type:String,
-        minlength:[3,'description must be longer than 3 characters'],
-        maxlength:[100,'description cannot be over 100 characters'],
-        required:[true, 'description cannot be empty'],
-
-    },
-    skills:{
-        type:[String],
-    },
-    likes:{
-        type:Number
-    }
-}, {
+        minlength:[1,'message must be longer than 1 characters'],
+        maxlength:[100,'message cannot be over 100 characters'],
+        required:[true, 'message cannot be empty'],
+    }    
+},{
     timestamps: true
 })
 mongoose.model('User',User);

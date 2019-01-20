@@ -9,9 +9,6 @@ module.exports = function(app){
     app.get('/api/:id', function(req, res) {
         home.getone(req,res);
     });
-    app.get('/api/:id/like', function(req, res) {
-        home.like(req,res);
-    });
     app.post('/api', function(req, res) {
         home.create(req,res);
     });

@@ -1,10 +1,9 @@
 var mongoose = require('mongoose');
-var pet = mongoose.model('pet');
+var User = mongoose.model('User');
 
 module.exports={
- 
-    get:function (req, res) {
-        pet.find({}).sort('type').exec(function (err, tasks) {
+    getall:function (req, res) {
+        User.find({}).sort('type').exec(function (err, tasks) {
             if (err) {
                 res.json({
                     message: "Error",
@@ -20,8 +19,8 @@ module.exports={
         })
     },
     getone:function(req,res){
-        pet.findOne({_id:req.params.id},function(err,pet){
-            console.log(pet);
+        User.findOne({_id:req.params.id},function(err,User){
+            console.log(User);
             if (err){
                 console.log(err)
                 res.json({
@@ -32,18 +31,18 @@ module.exports={
             else{
                 res.json({
                     message: "Success",
-                    data:pet
+                    data:User
                 });
             }
         })
     },
     create:function(req,res){
-        pet.findOne({name:req.body.name},function(err,y){
+        User.findOne({name:req.body.name},function(err,y){
             if(y != null){
-                res.json({message:"Error", error:"Pet already exists in database"});
+                res.json({message:"Error", error:"User already exists in database"});
             }
             else{
-                pet.create({name:req.body.name,type:req.body.type,description:req.body.description},function(err,x){
+                User.create({name:req.body.name},function(err,x){
                     if (err){
                         res.json({
                             message: "Error",
@@ -51,18 +50,8 @@ module.exports={
                         })
                     }
                     else{
-                        if(req.body.skill1.length>3){
-                            x.skills.push(req.body.skill1);
-                        }
-                        if(req.body.skill2.length>3){
-                            x.skills.push(req.body.skill2);
-                        }
-                        if(req.body.skill3.length>3){
-                            x.skills.push(req.body.skill3);
-                        }
-                        x.likes=0;
                         x.save();
-                res.json({message:"success"});
+                        res.json({message:"success"});
 
                     }
                 })
@@ -71,7 +60,7 @@ module.exports={
         })
     },
     update:function(req,res){
-        pet.findOne({_id:req.params.id},function(err,x){
+        User.findOne({_id:req.params.id},function(err,x){
             console.log(req.body);
             if (err){
                 console.log(err)
@@ -81,13 +70,13 @@ module.exports={
                 })
             }
             else{
-                pet.findOne({name:req.body.name},function(err,y){
+                User.findOne({name:req.body.name},function(err,y){
                     console.log(y);
                     if(y != null){
-                        res.json({message:"Error", error:"Pet already exists in database"});
+                        res.json({message:"Error", error:"Uesr already exists in database"});
                     }
                     else{
-                        pet.updateOne({_id:x._id},{name:req.body.name,type:req.body.type,description:req.body.description},{ runValidators: true },function(err){
+                        User.updateOne({_id:x._id},{name:req.body.name},{ runValidators: true },function(err){
                             if (err){
                                 console.log(err)
                                 res.json({
@@ -96,21 +85,9 @@ module.exports={
                                 })
                             }
                             else{
-                                x.skills=[];
-                                if(req.body.skill1!= undefined){
-                                    x.skills.push(req.body.skill1);
-                                }
-                                if(req.body.skill2!= undefined){
-                                    x.skills.push(req.body.skill2);
-                                }
-                                if(req.body.skill3!= undefined){
-                                    x.skills.push(req.body.skill3);
-                                }
                                 x.save();
                                 res.json({message:"success"});
-                                
                             }
-                            
                         })
                     }
             })
@@ -119,7 +96,7 @@ module.exports={
     })
 },
     delete:function(req,res){
-        pet.deleteOne({_id:req.params.id},function(err){
+        User.deleteOne({_id:req.params.id},function(err){
             if (err){
                 console.log(err)
                 res.json({
@@ -132,11 +109,4 @@ module.exports={
             }
         })
     },
-    like:function(req,res){
-        pet.findOne({_id:req.params.id},function(err,x){
-            x.likes+=1;
-            x.save();
-            res.json({message:'success', like:x.likes})
-        })
-    }
 }
