@@ -12,15 +12,27 @@
 </head>
 
 <body>
-    <div class="jumbotron text-center">Socket Chat</div>
-    <% if(!login) { %>
-    <button id="openmodal">Create Account</button>
-    <%}%>
+
+    <div id="mySidenav" class="sidenav">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <a href="#" id="openmodal">Change Username</a>
+        <% if(!login) { %>
+            <a href="#" id="openmodal">Create Account</a>
+        <%}%>
+        <a href="/logout">Logout</a>
+        <a href="/info">Info</a>
+    </div>
+    <div class="jumbotron bg-dark">
+        <h2>socket chat</h2>
+        <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; open</span>
+
+    </div>
+
 
     <div id="myModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2>You must make a username before leaving messages</h2>
+                <h2>Create A New Username</h2>
                 <span class="close">&times;</span>
             </div>
             <div class="modal-body">
@@ -30,7 +42,7 @@
                 </form>
             </div>
             <div class="modal-footer text-left">
-                <h3>Thanks!</h3>
+                <h3></h3>
             </div>
         </div>
 
@@ -42,6 +54,7 @@
         </div>
     </div>
 </body>
+<script src="index.js"></script>
 <% if(!login) { %>
 <script>
     // Get the modal
@@ -66,6 +79,5 @@
     }
 </script>
 <% } %>
-<script src="index.js"></script>
 
 </html>
