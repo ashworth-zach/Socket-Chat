@@ -58,9 +58,11 @@ mongoose.model('Message',Message);
 var User = mongoose.model('User');
 var Message = mongoose.model('Message');
 app.get('/', function (req, res) {
+    var login = true;
     if(req.session.UserId==null){
+        login=false
     }
-    res.render("index");
+    res.render("index",{login:login});
 })
 app.post('/register', function (req, res) {
     var user = new User(req.body);
