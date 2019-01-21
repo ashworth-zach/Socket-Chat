@@ -89,21 +89,21 @@ app.post('/register', function (req, res) {
         }
     })
 });
-app.post('/update', function (req, res) {
-    User.findOne({_id:req.session.UserId}, function (err, user) {
-        if (err) {
-            for (var key in err.errors) {
-                req.flash('error', err.errors[key].message);
-            }
-            res.redirect("/")
-        }
-        else {
-            user.name=req.body.name;
-            user.save();
-            res.redirect('/');
-        }
-    })
-});
+// app.post('/update', function (req, res) {
+//     User.findOne({_id:req.session.UserId}, function (err, user) {
+//         if (err) {
+//             for (var key in err.errors) {
+//                 req.flash('error', err.errors[key].message);
+//             }
+//             res.redirect("/")
+//         }
+//         else {
+//             user.name=req.body.name;
+//             user.save();
+//             res.redirect('/');
+//         }
+//     })
+// });
 app.get("/logout",function(req,res){
     req.session.UserId=null;
     res.redirect("/");
