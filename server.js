@@ -1,8 +1,10 @@
 var express = require('express');
 var mongoose = require('mongoose');
-var app = express();
 const session = require('express-session');
 const flash = require('express-flash');
+var app = express();
+const server = app.listen(3000);
+var io = require('socket.io')(server);
 mongoose.connect('mongodb://localhost/NodeChat');
 
 var bodyParser = require('body-parser');
@@ -44,7 +46,10 @@ var Message = new mongoose.Schema({
         minlength: [1, 'message must be longer than 1 characters'],
         maxlength: [100, 'message cannot be over 100 characters'],
         required: [true, 'message cannot be empty'],
-    }
+    },
+    user:{
+        type:String
+    },
 }, {
         timestamps: true
     })
@@ -100,17 +105,21 @@ app.post('/update', function (req, res) {
     })
 });
 
-//PORT DECLARATION
-const server = app.listen(1337);
-//SOCKET IMPORTS
-var io = require('socket.io')(server);
-
-//SOCKET FUNCTIONS
+// const server = app.listen(1337);
 io.on('connection', function (socket) {
-    
-    socket.on('message', function (data) {
-        // io.emit will message all socket clients 
-        console.log(data);
+
+    socket.on('newmessage', function (data) {
+        console.log(data.message);
+        newMessage = new Message({message:data.message,user:data.user});
+        Message.create(newMessage, function (err, msg) {
+            if (err) {
+            return;
+
+            }
+            else{
+                socket.broadcast.emit("message",{message:msg.message,user:msg.user});
+            }
+        })
     });
 });
 
