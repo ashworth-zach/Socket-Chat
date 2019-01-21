@@ -15,15 +15,19 @@
 
     <div id="mySidenav" class="sidenav">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <% if(login) { %>
+
         <a href="#" id="openmodal">Change Username</a>
+        <%}%>
+
         <% if(!login) { %>
-            <a href="#" id="openmodal">Create Account</a>
+        <a href="/" id="openmodal">Create Account</a>
         <%}%>
         <a href="/logout">Logout</a>
         <a href="/info">Info</a>
     </div>
     <div class="jumbotron bg-dark">
-        <h2>socket chat</h2>
+        <h2>socket chat <% if(login) { %><p>Welcome <%= Username %></p><%}%></h2>
         <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; open</span>
 
     </div>
@@ -36,10 +40,19 @@
                 <span class="close">&times;</span>
             </div>
             <div class="modal-body">
+                <% if(!login) { %>
                 <form action="register" method="post">
                     <input type="text" name="name" id="nameinput">
                     <input type="submit" value="Make Account!">
                 </form>
+                <%}%>
+                <% if(login) { %>
+
+                <form action="update" method="post">
+                    <input type="text" name="name" id="nameinput">
+                    <input type="submit" value="update username">
+                </form>
+                <%}%>
             </div>
             <div class="modal-footer text-left">
                 <h3></h3>
@@ -52,6 +65,9 @@
         <div class="messagebox">
             <p class="message">message</p>
         </div>
+    </div>
+    <div class="footer">
+        <p>Footer</p>
     </div>
 </body>
 <script src="index.js"></script>

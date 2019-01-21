@@ -27,31 +27,30 @@ app.use(session({
         maxAge: 60000
     }
 }))
-var Schema=mongoose.Schema;
 mongoose.Promise = global.Promise;
 var User = new mongoose.Schema({
     name: {
         type: String,
-        minlength:[3,'name must be longer than 3 characters'],
-        maxlength:[100,'name cannot be over 100 characters'],
-        required:[true, 'name cannot be empty'],
-    }, 
-},{
-    timestamps: true
-})
+        minlength: [3, 'name must be longer than 3 characters'],
+        maxlength: [100, 'name cannot be over 100 characters'],
+        required: [true, 'name cannot be empty'],
+    },
+}, {
+        timestamps: true
+    })
 var Message = new mongoose.Schema({
-    message:{
-        type:String,
-        minlength:[1,'message must be longer than 1 characters'],
-        maxlength:[100,'message cannot be over 100 characters'],
-        required:[true, 'message cannot be empty'],
+    message: {
+        type: String,
+        minlength: [1, 'message must be longer than 1 characters'],
+        maxlength: [100, 'message cannot be over 100 characters'],
+        required: [true, 'message cannot be empty'],
     }
-},{
-    timestamps: true
-})
+}, {
+        timestamps: true
+    })
 
-mongoose.model('User',User);
-mongoose.model('Message',Message);
+mongoose.model('User', User);
+mongoose.model('Message', Message);
 
 // Retrieve the Schema called 'User' and store it to the variable User
 
@@ -59,16 +58,45 @@ var User = mongoose.model('User');
 var Message = mongoose.model('Message');
 app.get('/', function (req, res) {
     var login = true;
-    if(req.session.UserId==null){
-        login=false
+    if (req.session.UserId == null) {
+        login = false
+        res.render("index", { login: login });
+
     }
-    res.render("index",{login:login});
-})
+    else {
+        User.findOne({ _id: req.session.UserId }, function (err, user) {
+            res.render("index", { login: login, UserId: req.session.UserId, Username: user.name });
+        })
+    }
+});
 app.post('/register', function (req, res) {
-    var user = new User(req.body);
-    User.create(user, function (err, user) {
-        req.session.UserId = user._id;
-        res.redirect('/');
+    var usertocreate = new User(req.body);
+    User.create(usertocreate, function (err, user) {
+        if (err) {
+            for (var key in err.errors) {
+                req.flash('error', err.errors[key].message);
+            }
+            res.redirect("/")
+        }
+        else {
+            req.session.UserId = user._id;
+            res.redirect('/');
+        }
+    })
+});
+app.post('/update', function (req, res) {
+    User.findOne({ _id: req.session.UserId }, function (err, user) {
+        if (err) {
+            for (var key in err.errors) {
+                req.flash('error', err.errors[key].message);
+            }
+            res.redirect("/")
+        }
+        else {
+            user.name = req.body.name;
+            user.save();
+            res.redirect("/")
+        }
     })
 });
 
@@ -78,13 +106,13 @@ const server = app.listen(1337);
 var io = require('socket.io')(server);
 
 //SOCKET FUNCTIONS
-io.on('connection', function (socket) { 
-  
-    socket.on('message', function (data) { 
-      // io.emit will message all socket clients 
-      io.emit('updateAllClients', { data: data.message });
+io.on('connection', function (socket) {
+
+    socket.on('message', function (data) {
+        // io.emit will message all socket clients 
+        io.emit('updateAllClients', { data: data.message });
     });
-  });
+});
 
 app.listen(8000, function () {
     console.log("listening on port 8000");
