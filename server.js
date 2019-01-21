@@ -47,8 +47,8 @@ var Message = new mongoose.Schema({
         maxlength: [100, 'message cannot be over 100 characters'],
         required: [true, 'message cannot be empty'],
     },
-    user:{
-        type:String
+    user: {
+        type: String
     },
 }, {
         timestamps: true
@@ -90,7 +90,7 @@ app.post('/register', function (req, res) {
     })
 });
 app.post('/update', function (req, res) {
-    User.findOne({ _id: req.session.UserId }, function (err, user) {
+    User.findOne({_id:req.session.UserId}, function (err, user) {
         if (err) {
             for (var key in err.errors) {
                 req.flash('error', err.errors[key].message);
@@ -98,29 +98,44 @@ app.post('/update', function (req, res) {
             res.redirect("/")
         }
         else {
-            user.name = req.body.name;
+            user.name=req.body.name;
             user.save();
-            res.redirect("/")
+            res.redirect('/');
         }
     })
 });
-
+app.get("/logout",function(req,res){
+    req.session.UserId=null;
+    res.redirect("/");
+})
+app.get("/info",function(req,res){
+    res.render("info");
+})
 // const server = app.listen(1337);
 io.on('connection', function (socket) {
 
-    socket.on('newmessage', function (data) {
+    socket.on('newmessage', function (data) {//LISTENS FOR NEW MESSAGES
         console.log(data.message);
-        newMessage = new Message({message:data.message,user:data.user});
+        newMessage = new Message({ message: data.message, user: data.user });
         Message.create(newMessage, function (err, msg) {
             if (err) {
-            return;
+                return;
 
             }
-            else{
-                io.emit("message",{message:msg.message,user:msg.user});
+            else {
+                io.emit("message", { message: msg.message, user: msg.user });//EMITS MESSAGE UPDATE TO ALL USERS
             }
         })
     });
+    socket.on("ChangeUsername", function (data) {//UPDATE USERNAME 
+                var response = data.oldusername + " Is Now " + data.newusername;
+                io.emit("UsernameChange", { message: response, user: data.newusername })//EMIT CHANGE
+                // socket.emit("UserName",{name:data.user}); //EMIT NEW USERNAME FOR THE SINGLE USER
+    })
+    socket.on("register", function (data) {//REGISTER USER 
+        var response = data.user + " has joined the chat.";
+        io.emit("NewUser", { message: response, user: data.user })//EMIT CHANGE
+    })
 });
 
 app.listen(8000, function () {
