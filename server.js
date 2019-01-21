@@ -117,7 +117,7 @@ io.on('connection', function (socket) {
 
             }
             else{
-                socket.broadcast.emit("message",{message:msg.message,user:msg.user});
+                io.emit("message",{message:msg.message,user:msg.user});
             }
         })
     });

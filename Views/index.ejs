@@ -69,7 +69,7 @@
 
 
     </div>
-    <div class="container">
+    <div id="container" class='container'>
         <div class="usermessagebox">
             <p class="message">message</p>
         </div>
@@ -82,13 +82,19 @@
 
         <input type="text" name="message" class="messageform">
         <button class="sendMessage">Send</button>
+        <input type="hidden" class="UserName" value="<%=Username%>">
         <% } %>
+        <input type="hidden" class="loginbool" value="<%=login%>">
         <script>
 
             $(document).ready(function () {
 
                 var socket = io(); //1
-                var user=$('.username').val();
+                var user=$('.UserName').val();
+                var login=$('.loginbool').val();
+                console.log(user);
+                console.log(login);
+                
                 $('.sendMessage').click(function () {
                     var text = $('.messageform').val();
                     socket.emit("newmessage", { message: text,user:user});
@@ -97,17 +103,20 @@
 
                 socket.on('message', function (data) { //4
                     var div = document.createElement('div');
+                    var message=document.createElement('p');
+                    var container = document.getElementById("container");
+                    console.log(data);
+                    message.className = 'message';
                     if(data.user!=user){
                         div.className = 'othermessagebox';
                     }
                     else{
                         div.className = 'usermessagebox';
                     }
-                    message=document.createElement('p');
-                    message.className = 'message';
-                    $("message").val(data.msg);
+                    message.val=data.message;
                     div.appendChild(message);
-                    $(".container").appendChild(div);
+                    container.appendChild(div);
+                    
             });
             })
         </script>
