@@ -1,3 +1,82 @@
+$(document).ready(function () {
+
+  var socket = io(); //1
+  var user=$('.UserName').val(); //i was having trouble with ejs syntax in javascript so i used this
+  var login=$('.loginbool').val(); //TEMPORARY SHITCODE CHANGE THIS WARNING WARNING SHITCODE SHITCODE
+  console.log(user);
+  console.log(login);
+  var modal = document.getElementById('myModal');
+  
+  $('.sendMessage').click(function () { //SEND MESSAGE FUNCTION
+      var text = $('.messageform').val(); //set text values
+      socket.emit("newmessage", { message: text,user:user}); 
+      $('.messageform').val("");//reset input field
+  })
+  // $('#registerbtn').click(function () { //REGISTER FUNCTION
+  //     var text = $('#nameinputreg').val();
+  //     console.log(text)
+  //     socket.emit("register", { user:text});
+  //     $('#nameinputreg').val("");
+  //     modal.style.display = "none";
+  // })
+  // $('#updatebtn').click(function () { //UPDATE USERNAME FUNCTION
+  //     var text = $('#nameinputupdate').val();
+  //     socket.emit("ChangedUsername", { user:text});
+  //     $('#nameinputupdate').val("");
+  //     modal.style.display = "none";
+  // })
+  $("#register").submit(function(event){
+      name=document.getElementById("nameinputreg").innerHTML();
+      socket.emit("register",{user:name});
+  })
+  $("#updatename").submit(function(event){
+      oldname=document.getElementsByClassName("UserName").innerHTML();
+      name=document.getElementById("nameinputupdate").innerHTML();
+      socket.emit("register",{newusername:name,oldusername:oldname});
+  })
+  socket.on("UsernameChange",function(data){ //USERNAME CHANGE LISTENER
+      var div = document.createElement('div'); //create div
+      var namechange=document.createElement('p'); //create p 
+      namechange.innerHTML=data.message; //p value is now the response from server side socket
+      var container = document.getElementById("container"); //initialize container
+      console.log(data); //good test
+      namechange.className = 'namechange'; //set p class
+      div.className = 'namechangediv'; //set div class
+      div.appendChild(namechange); //append data to div
+      container.appendChild(div); //append div to container
+  });
+  socket.on("NewUser",function(data){ //USERNAME CHANGE LISTENER
+      var div = document.createElement('div'); //create div
+      var namechange=document.createElement('p'); //create p 
+      namechange.innerHTML=data.message; //p value is now the response from server side socket
+      var container = document.getElementById("container"); //initialize container
+      console.log(data); //good test
+      namechange.className = 'namechange'; //set p class
+      div.className = 'namechangediv'; //set div class
+      div.appendChild(namechange); //append data to div
+      container.appendChild(div); //append div to container
+  });
+  socket.on('message', function (data) { //MESSAGE UPDATE LISTENER
+      var div = document.createElement('div');
+      var message=document.createElement('p');
+      message.innerHTML=data.message;
+      var container = document.getElementById("container");
+      console.log(data);
+      message.className = 'message';
+      if(data.user!=user){ 
+          div.className = 'othermessagebox'; //blue box (You)
+      }
+      else{
+          div.className = 'usermessagebox'; //grey box(other people)
+      }
+      div.appendChild(message);  //append message to div
+      container.appendChild(div); //append div to container
+      
+  });
+  })
+
+
+
 var modal = document.getElementById('myModal');
 
 // Get the button that opens the modal
