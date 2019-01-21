@@ -129,7 +129,16 @@ io.on('connection', function (socket) {
     });
     socket.on("ChangeUsername", function (data) {//UPDATE USERNAME 
                 var response = data.oldusername + " Is Now " + data.newusername;
-                io.emit("UsernameChange", { message: response, user: data.newusername })//EMIT CHANGE
+                User.findOne({_id:data.UserId},function(err,user){
+                    if (err){
+                        return;
+                    }
+                    else{
+                        user.name=data.newusername;
+                        user.save();
+                        io.emit("UsernameChange", { message: response, user: data.newusername })//EMIT CHANGE
+                    }
+                })
                 // socket.emit("UserName",{name:data.user}); //EMIT NEW USERNAME FOR THE SINGLE USER
     })
     socket.on("register", function (data) {//REGISTER USER 

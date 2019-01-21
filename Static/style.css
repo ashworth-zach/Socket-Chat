@@ -32,7 +32,7 @@
     text-decoration: none;
     cursor: pointer;
 } */
-
+html, body {margin: 0; height: 100%; overflow: hidden}
   /* The Modal (background) */
 .modal {
     display: none; /* Hidden by default */
@@ -95,7 +95,15 @@
     background-color: #27a0b6;
     color: white;
   }
-  
+  .contain {
+    font-size: 0;
+    height: 60%;
+    vertical-align: top;
+    width: 80%;
+    margin-left: 10%;
+    padding: 0 5% 0 5%;
+    overflow: auto;
+}
   /* Add Animation */
   @-webkit-keyframes slideIn {
     from {bottom: -300px; opacity: 0} 
@@ -168,6 +176,8 @@
     border-radius: 10px;
     transform: skewY(-1deg);
     padding: 1%;
+    margin-top: 2px;
+    border: 1px solid black;
   }
   .othermessagebox{
     background-color:grey;
@@ -175,6 +185,9 @@
     margin-right: -5%;
     transform: skewY(-1deg);
     padding: 1%;
+    margin-top: 2px;
+    border: 1px solid black;
+
   }
   @media screen and (max-height: 450px) {
     .sidenav {padding-top: 15px;}
