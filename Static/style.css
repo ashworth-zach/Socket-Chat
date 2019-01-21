@@ -50,6 +50,10 @@
     animation-name: fadeIn;
     animation-duration: 0.4s
   }
+  .message{
+    color:black;
+    font-size: 14pt;
+  }
   
   /* Modal Content */
   .modal-content {

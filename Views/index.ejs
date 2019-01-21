@@ -104,6 +104,7 @@
                 socket.on('message', function (data) { //4
                     var div = document.createElement('div');
                     var message=document.createElement('p');
+                    message.innerHTML=data.message;
                     var container = document.getElementById("container");
                     console.log(data);
                     message.className = 'message';
@@ -113,7 +114,6 @@
                     else{
                         div.className = 'usermessagebox';
                     }
-                    message.val=data.message;
                     div.appendChild(message);
                     container.appendChild(div);
                     
