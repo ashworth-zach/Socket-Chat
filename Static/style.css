@@ -33,7 +33,6 @@
     cursor: pointer;
 } */
 
-
   /* The Modal (background) */
 .modal {
     display: none; /* Hidden by default */
@@ -157,6 +156,20 @@
     background-color: #27a0b6;
     color: white;
     text-align: center;
+  }
+  .usermessagebox{
+    background-color:#27a0b6;
+    margin-left: -5%;
+    border-radius: 10px;
+    transform: skewY(-1deg);
+    padding: 1%;
+  }
+  .othermessagebox{
+    background-color:grey;
+    border-radius: 10px;
+    margin-right: -5%;
+    transform: skewY(-1deg);
+    padding: 1%;
   }
   @media screen and (max-height: 450px) {
     .sidenav {padding-top: 15px;}

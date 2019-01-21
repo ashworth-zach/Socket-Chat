@@ -107,10 +107,10 @@ var io = require('socket.io')(server);
 
 //SOCKET FUNCTIONS
 io.on('connection', function (socket) {
-
+    
     socket.on('message', function (data) {
         // io.emit will message all socket clients 
-        io.emit('updateAllClients', { data: data.message });
+        console.log(data);
     });
 });
 

@@ -29,3 +29,9 @@ function openNav() {
   function closeNav() {
     document.getElementById("mySidenav").style.width = "0";
   }
+  function sendMessage(){
+    var message = document.getElementsByClassName("messageform").value;
+    var socket = io(); //1
+    socket.emit('message', { msg: message }); //6
+    
+ }
