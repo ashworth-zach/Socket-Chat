@@ -26,13 +26,17 @@ $(document).ready(function () {
   //     modal.style.display = "none";
   // })
   $("#register").submit(function(event){
-      name=document.getElementById("nameinputreg").innerHTML();
+      name=document.getElementById("nameinputreg").value;
       socket.emit("register",{user:name});
   })
   $("#updatename").submit(function(event){
-      oldname=document.getElementsByClassName("UserName").innerHTML();
-      name=document.getElementById("nameinputupdate").innerHTML();
-      socket.emit("register",{newusername:name,oldusername:oldname});
+    event.preventDefault();
+      oldname=document.getElementById("UserName").value;
+      name=document.getElementById("nameinputupdate").value;
+      console.log(oldname,name);
+      socket.emit("ChangeUsername",{newusername:name,oldusername:oldname});
+      document.getElementById("UserName").value=name;
+      document.getElementById("usernamegreet").innerHTML=name;
   })
   socket.on("UsernameChange",function(data){ //USERNAME CHANGE LISTENER
       var div = document.createElement('div'); //create div

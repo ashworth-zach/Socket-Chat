@@ -32,7 +32,7 @@
         <h2>socket chat
             <% if(login) { %>
             <p>Welcome
-                <span class="username"><%=Username%></span>
+                <span id="usernamegreet" class="username"><%=Username%></span>
             </p>
             <%}%>
         </h2>
@@ -76,7 +76,7 @@
 
         <input type="text" name="message" class="messageform">
         <button class="sendMessage">Send</button>
-        <input type="hidden" class="UserName" value="<%=Username%>">
+        <input type="hidden" class="UserName" id="UserName" value="<%=Username%>">
         <% } %>
         <input type="hidden" class="loginbool" value="<%=login%>">
         <script>

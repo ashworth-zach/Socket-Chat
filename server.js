@@ -111,7 +111,7 @@ app.get("/logout",function(req,res){
 app.get("/info",function(req,res){
     res.render("info");
 })
-// const server = app.listen(1337);
+// const server = app.listen(3000);
 io.on('connection', function (socket) {
 
     socket.on('newmessage', function (data) {//LISTENS FOR NEW MESSAGES
