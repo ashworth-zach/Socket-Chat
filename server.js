@@ -152,8 +152,14 @@ io.on('connection', function (socket) {
                 // socket.emit("UserName",{name:data.user}); //EMIT NEW USERNAME FOR THE SINGLE USER
     })
     socket.on("register", function (data) {//REGISTER USER 
-        var response = data.user + " has joined the chat.";
-        io.emit("NewUser", { message: response, user: data.user })//EMIT CHANGE
+        // User.create({name:data.user},function(err,user){
+        //     if (err){
+        //         return;
+        //     }
+        //     var response = data.user + " has joined the chat.";
+            // socket.emit("initUser",{name:user.name,id:user._id});
+            io.emit("NewUser", { message: response, user: data.user })//EMIT CHANGE
+        // })
     })
 });
 

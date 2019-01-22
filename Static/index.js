@@ -46,6 +46,7 @@ $(document).ready(function () {
   //     modal.style.display = "none";
   // })
   $("#register").submit(function (event) {
+    event.preventDefault();
     name = document.getElementById("nameinputreg").value;
     socket.emit("register", { user: name });
   })
@@ -103,6 +104,11 @@ $(document).ready(function () {
     updateScroll();
 
   });
+  socket.on("initUser",function(data){//UPDATE VARIABLES FOR YOUR ACCCOUNT
+    $('.UserName').val(data.name);
+    $('.loginbool').val(true);
+    $('.UserId').val(data.id);
+  })
 })
 
 //NAVBAR FUNCTIONS BELOW
