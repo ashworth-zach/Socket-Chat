@@ -74,6 +74,16 @@ app.get('/', function (req, res) {
         })
     }
 });
+app.get('/allusers', function (req, res) {
+        User.find({}, function (err, user) {
+            res.render("allusers", {data:user});
+        })
+});
+app.get('/allmessages', function (req, res) {
+    Message.find({}, function (err, user) {
+        res.render("messages", {data:user});
+    })
+});
 app.post('/register', function (req, res) {
     var usertocreate = new User(req.body);
     User.create(usertocreate, function (err, user) {

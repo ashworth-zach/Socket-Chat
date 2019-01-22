@@ -120,8 +120,7 @@ span.onclick = function () {
 // When the user clicks anywhere outside of the modal, close it
 window.onclick = function (event) {
   if (event.target == modal) {
-    modal.style.display = "none";
-    closeNav();
+    closeAll();
   }
 }
 function openNav() {
@@ -133,7 +132,7 @@ function closeNav() {
 }
 function closeAll(){
   modal.style.display = "none";
-  closeNav();
+  document.getElementById("mySidenav").style.width = "0";
 }
 function updateScroll(){
   var element = document.getElementById("container");

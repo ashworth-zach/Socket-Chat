@@ -27,18 +27,15 @@
         <a href="/" id="openmodal">Create Account</a>
         <%}%>
         <a href="/logout">Logout</a>
+        <a href="/allusers">all users</a>
+        <a href="/allmessages">all messages</a>
+
         <a href="/info">Info</a>
     </div>
 <!--------------------------------------------------------- HEADER ----------------------------------------------------------------------------->
 
     <div class="jumbotron bg-dark">
-        <h2>socket chat
-            <% if(login) { %>
-            <p>Welcome
-                <span id="usernamegreet" class="username"><%=Username%></span>
-            </p>
-            <%}%>
-        </h2>
+        <h2>Welcome to Socket Chat<% if(login) { %><span id="usernamegreet" class="username">, <%=Username%></span><p><%}%></h2>
         <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; open</span>
 
     </div>
@@ -82,9 +79,19 @@
         <% if(login) { %>
 <!--------------------------------------------------------- Message form ----------------------------------------------------------------------------->
 
-        <input type="text" name="message" id="MessageInput" class="messageform">
+<form>
+    
+    <div class="group">      
+      <input type="text" name="message" id="MessageInput" class="messageform" required>
+      <span class="highlight"></span>
+      <span class="bar"></span>
+      <label>Message</label>
+    </div>
+      
+    
+  </form>        
         <button id="Messagebtn" class="sendMessage">Send</button>
-
+        
 <!--------------------------------------------------------- Javascript and dom variables ----------------------------------------------------------------------------->
 
         <input type="hidden" class="UserId" id="UserId" value="<%=UserId%>">
