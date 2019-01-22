@@ -70,7 +70,7 @@ $(document).ready(function () {
     div.appendChild(namechange); //append data to div
     container.appendChild(div); //append div to container
   });
-  socket.on("NewUser", function (data) { //USERNAME CHANGE LISTENER
+  socket.on("NewUser", function (data) { //REGISTRATION LISTENER
     var div = document.createElement('div'); //create div
     var namechange = document.createElement('p'); //create p 
     namechange.innerHTML = data.message; //p value is now the response from server side socket

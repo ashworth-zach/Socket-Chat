@@ -330,6 +330,16 @@ html, body {margin: 0; height: 100%; overflow: hidden}
   }
 
 
+
+.namechange{
+color:black;
+font-size: 12pt;
+
+}
+.namechangediv{
+  text-align: center;
+}
+
   @media screen and (max-height: 450px) {
     .sidenav {padding-top: 15px;}
     .sidenav a {font-size: 18px;}
